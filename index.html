@@ -5,8 +5,8 @@
   <style>
     .grid {
       display: grid;
-      grid-template-columns: repeat(10, 30px);
-      grid-template-rows: repeat(10, 30px);
+      grid-template-columns: repeat(8, 30px);
+      grid-template-rows: repeat(8, 30px);
       gap: 2px;
       margin-bottom: 20px;
     }
@@ -23,8 +23,8 @@
     .number-grid {
       font-family: monospace;
       display: grid;
-      grid-template-columns: repeat(10, 30px);
-      grid-template-rows: repeat(10, 30px);
+      grid-template-columns: repeat(8, 30px);
+      grid-template-rows: repeat(8, 30px);
       gap: 2px;
     }
     .num-cell {
@@ -34,50 +34,70 @@
       line-height: 30px;
       border: 1px solid #ccc;
     }
+    .flat-output {
+      font-family: monospace;
+      margin-top: 20px;
+      font-size: 18px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
   </style>
 </head>
 <body>
 
-<h2>操作用グリッド（クリックで白⇔黒）</h2>
+<h2>操作用グリッド（クリックで白⇄黒）</h2>
 <div class="grid" id="clickGrid"></div>
 
 <h2>表示用グリッド（黒=1、白=0）</h2>
 <div class="number-grid" id="displayGrid"></div>
 
+<h2>1列に並べた出力（左上→右下）</h2>
+<div class="flat-output" id="flatOutput"></div>
+
 <script>
   const clickGrid = document.getElementById('clickGrid');
   const displayGrid = document.getElementById('displayGrid');
+  const flatOutput = document.getElementById('flatOutput');
 
-  // 状態を2次元配列で保持（0=白、1=黒）
-  const state = Array(10).fill().map(() => Array(10).fill(0));
+  const SIZE = 8;
+  const state = Array(SIZE).fill().map(() => Array(SIZE).fill(0)); // 0 = 白, 1 = 黒
 
   function renderGrids() {
     clickGrid.innerHTML = '';
     displayGrid.innerHTML = '';
+    flatOutput.innerHTML = '';
 
-    for (let row = 0; row < 10; row++) {
-      for (let col = 0; col < 10; col++) {
-        // 操作用マス目
+    let flatText = '';
+
+    for (let row = 0; row < SIZE; row++) {
+      for (let col = 0; col < SIZE; col++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
         if (state[row][col] === 1) cell.classList.add('black');
+
+        // クリックでトグル
         cell.addEventListener('click', () => {
-          // ✅ トグル処理（0→1, 1→0）
           state[row][col] = state[row][col] === 0 ? 1 : 0;
           renderGrids(); // 再描画
         });
+
         clickGrid.appendChild(cell);
 
-        // 表示用マス目（数字）
+        // 数値グリッド
         const numCell = document.createElement('div');
         numCell.className = 'num-cell';
         numCell.textContent = state[row][col];
         displayGrid.appendChild(numCell);
+
+        // 1列出力に追加
+        flatText += state[row][col];
       }
     }
+
+    flatOutput.textContent = flatText;
   }
 
-  renderGrids(); // 初期描画
+  renderGrids();
 </script>
 
 </body>
