@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      gap: 2px;
+      margin-bottom: 20px;
+    }
+    .cell {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .black {
+      background-color: black;
+    }
+    .number-grid {
+      font-family: monospace;
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      gap: 2px;
+    }
+    .num-cell {
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h2>操作用グリッド</h2>
+<div class="grid" id="clickGrid"></div>
+
+<h2>表示用グリッド（1 = 黒, 0 = 白）</h2>
+<div class="number-grid" id="displayGrid"></div>
+
+<script>
+  const clickGrid = document.getElementById('clickGrid');
+  const displayGrid = document.getElementById('displayGrid');
+
+  const state = Array(10).fill().map(() => Array(10).fill(0)); // 0 = white, 1 = black
+
+  function renderGrids() {
+    clickGrid.innerHTML = '';
+    displayGrid.innerHTML = '';
+
+    for (let row = 0; row < 10; row++) {
+      for (let col = 0; col < 10; col++) {
+        // 操作用
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        if (state[row][col] === 1) cell.classList.add('black');
+        cell.addEventListener('click', () => {
+          state[row][col] = 1;
+          renderGrids();
+        });
+        clickGrid.appendChild(cell);
+
+        // 表示用
+        const numCell = document.createElement('div');
+        numCell.className = 'num-cell';
+        numCell.textContent = state[row][col];
+        displayGrid.appendChild(numCell);
+      }
+    }
+  }
+
+  renderGrids();
+</script>
+
+</body>
+</html>
