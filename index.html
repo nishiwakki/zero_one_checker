@@ -2,13 +2,19 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <title>情報の技術第２回</title>
   <style>
+    .grid-container {
+      display: flex;
+      gap: 40px; /* グリッド間のスペース */
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(8, 30px);
       grid-template-rows: repeat(8, 30px);
       gap: 2px;
-      margin-bottom: 20px;
     }
     .cell {
       width: 30px;
@@ -44,12 +50,17 @@
   </style>
 </head>
 <body>
+<h1>情報の技術　第２回</h1>
+<h2>操作用グリッド（クリックで白⇄黒）と表示用グリッド（黒=1、白=0）</h2>
+<div class="grid-container">
+  <!-- 操作用 -->
+  <div class="grid" id="clickGrid"></div>
 
-<h2>操作用グリッド（クリックで白⇄黒）</h2>
-<div class="grid" id="clickGrid"></div>
-
-<h2>表示用グリッド（黒=1、白=0）</h2>
-<div class="number-grid" id="displayGrid"></div>
+  <!-- 表示用 -->
+  <div>
+    <div class="number-grid" id="displayGrid"></div>
+  </div>
+</div>
 
 <h2>1列に並べた出力（左上→右下）</h2>
 <div class="flat-output" id="flatOutput"></div>
@@ -99,6 +110,7 @@
 
   renderGrids();
 </script>
-
+<br>
+<p>made by nishiwaki.</p>
 </body>
 </html>
